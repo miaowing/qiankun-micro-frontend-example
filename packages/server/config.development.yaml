@@ -1,0 +1,10 @@
+etcd:
+  hosts: localhost:2379
+service:
+  discoveryHost: localhost
+  health_check:
+    ttl: 20
+  name: micro-fe-starter
+  port: 3000
+config:
+  name: config__${{ service.name }}__${{ NODE_ENV }}
