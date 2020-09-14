@@ -1,6 +1,7 @@
 'use strict';
 
 // Do this as the first thing so that any code reading it knows the right env.
+
 process.env.BABEL_ENV = 'development';
 process.env.NODE_ENV = 'development';
 
@@ -15,6 +16,7 @@ process.on('unhandledRejection', err => {
 require('../config/env');
 
 
+const path = require('path');
 const fs = require('fs');
 const chalk = require('react-dev-utils/chalk');
 const webpack = require('webpack');
@@ -98,6 +100,24 @@ checkBrowsers(paths.appPath, isInteractive)
             tscCompileOnError,
             webpack,
         });
+
+        if (appConfig.app === 'main') {
+            if (!fs.existsSync('../.webpack')) {
+                fs.mkdirSync('../.webpack');
+            }
+            compiler.plugin('emit', (compilation, callback) => {
+                const assets = compilation.assets;
+                let file, data;
+                Object.keys(assets).forEach(key => {
+                    if (key.match(/main\.html/)) {
+                        file = path.resolve(__dirname, '../.webpack/index.hbs');
+                        data = assets[key].source();
+                        fs.writeFileSync(file, data);
+                    }
+                });
+                callback();
+            });
+        }
         // Load proxy config
         const proxySetting = require(paths.appPackageJson).proxy;
         const proxyConfig = prepareProxy(

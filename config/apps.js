@@ -21,6 +21,7 @@ module.exports = {
         return {
             path: path.resolve(__dirname, '../packages/' + app || 'main'),
             port: args.port,
+            app,
         };
     }
 }

@@ -4,7 +4,6 @@ import { NestLogger } from '@nestcloud/logger';
 import { BOOT, IBoot } from '@nestcloud/common';
 import { resolve } from 'path';
 import { NestExpressApplication } from "@nestjs/platform-express";
-import { writeFileSync } from "fs";
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -17,38 +16,13 @@ async function bootstrap() {
     app.useStaticAssets(resolve(__dirname, './public'));
 
     if (process.env.NODE_ENV !== 'production') {
-        compile(app);
+        app.setBaseViewsDir(resolve(__dirname, '../../.webpack/'));
     }
 
     handleStop(app);
 
     const boot = app.get<IBoot>(BOOT);
     await app.listen(boot.get('service.port', 3000));
-}
-
-function compile(app) {
-    app.useStaticAssets(resolve(__dirname, './assets'));
-    app.setBaseViewsDir(resolve(__dirname, '../../.webpack/'));
-    const webpack = require('webpack');
-    const devMiddleware = require('webpack-dev-middleware');
-    const hotMiddleware = require('webpack-hot-middleware');
-    const config = require('../main/webpack.config');
-    const compiler = webpack(config);
-    compiler.plugin('emit', (compilation, callback) => {
-        const assets = compilation.assets;
-        let file, data;
-        Object.keys(assets).forEach(key => {
-            if (key.match(/main\.html/)) {
-                file = resolve(__dirname, '../../.webpack/index.hbs');
-                data = assets[key].source();
-                writeFileSync(file, data);
-            }
-        });
-        callback();
-    });
-
-    app.use(devMiddleware(compiler, { hot: true, publicPath: config.output.publicPath }));
-    app.use(hotMiddleware(compiler));
 }
 
 function handleStop(app) {
