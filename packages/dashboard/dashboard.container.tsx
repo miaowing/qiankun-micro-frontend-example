@@ -1,26 +1,26 @@
 import * as React from "react";
-import { Connect } from "../common/decorators/connect.decorator";
-import { State } from "./interfaces/state.interface";
-import { bindActionCreators } from "../common/bind-action-creators";
-import { DashboardAction } from "./actions/dashboard.action";
+// import { State } from "./interfaces/state.interface";
+// import { useDispatch, useSelector } from "react-redux";
+// import { useEffect } from "react";
+// import { DashboardAction } from "./redux/dashboard.action";
+// import { DashboardModel } from "./redux/dashboard.model";
 
-@Connect(
-    (state: State) => ({ dashboard: state.dashboard }),
-    dispatch => ({
-        actions: {
-            dashboard: bindActionCreators(DashboardAction, dispatch),
-        }
-    })
-)
+// export function DashboardContainer() {
+//     const state = useSelector<State, { dashboard: DashboardModel }>(state => ({ dashboard: state.dashboard }));
+//     const dispatch = useDispatch();
+//     useEffect(() => {
+//         dispatch(DashboardAction.getDashboardData());
+//     }, []);
+//
+//     return <>
+//         <span>Dashboard</span> {state.dashboard.test}
+//     </>
+// }
+
 export class DashboardContainer extends React.Component<any, any> {
-    componentDidMount() {
-        this.props.actions.dashboard.getDashboardData();
-    }
-
     render() {
-        console.log(this.props.dashboard);
         return <>
             Dashboard
-        </>
+        </>;
     }
 }

@@ -25,6 +25,7 @@ const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const postcssNormalize = require('postcss-normalize');
 const appPackageJson = require(paths.appPackageJson);
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
@@ -105,7 +106,7 @@ module.exports = function (webpackEnv) {
                 : false
             : isEnvDevelopment && 'cheap-module-source-map',
         entry: [
-            isEnvDevelopment && require.resolve('react-dev-utils/webpackHotDevClient'),
+            // isEnvDevelopment && require.resolve('react-dev-utils/webpackHotDevClient'),
             process.env.APP_INDEX,
         ].filter(Boolean),
         output: {
@@ -114,7 +115,7 @@ module.exports = function (webpackEnv) {
             filename: isEnvProduction ? 'static/js/[name].[contenthash:8].js' : isEnvDevelopment && 'static/js/bundle.js',
             futureEmitAssets: true,
             chunkFilename: isEnvProduction ? 'static/js/[name].[contenthash:8].chunk.js' : isEnvDevelopment && 'static/js/[name].chunk.js',
-            publicPath: paths.publicUrlOrPath,
+            publicPath: process.env.PUBLIC_URL,
             devtoolModuleFilenameTemplate: isEnvProduction
                 ? info => path
                     .relative(paths.appSrc, info.absoluteResourcePath)
@@ -398,6 +399,11 @@ module.exports = function (webpackEnv) {
             new ModuleNotFoundPlugin(paths.appPath),
             new webpack.DefinePlugin(env.stringified),
             isEnvDevelopment && new webpack.HotModuleReplacementPlugin(),
+            isEnvDevelopment && new ReactRefreshWebpackPlugin({
+                overlay: {
+                    sockHost: process.env.WDS_SOCKET_HOST
+                },
+            }),
             isEnvDevelopment && new CaseSensitivePathsPlugin(),
             isEnvDevelopment &&
             new WatchMissingNodeModulesPlugin(paths.appNodeModules),

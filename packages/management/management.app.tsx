@@ -3,14 +3,14 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { store } from "./store";
-import { DashboardContainer } from './dashboard.container';
+import { ManagementContainer } from './management.container';
 
 // 获取自己的槽
 function domElementGetter() {
     return document.querySelector('#app') as Element;
 }
 
-const App = props => <Provider store={store}><DashboardContainer/></Provider>;
+const App = props => <Provider store={store}><ManagementContainer/></Provider>
 
 export async function bootstrap() {
     console.log('react app bootstraped');

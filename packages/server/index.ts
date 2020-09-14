@@ -14,6 +14,7 @@ async function bootstrap() {
     });
     app.setBaseViewsDir(resolve(__dirname, './views'));
     app.setViewEngine('hbs');
+    app.useStaticAssets(resolve(__dirname, './public'));
 
     if (process.env.NODE_ENV !== 'production') {
         compile(app);
@@ -27,13 +28,11 @@ async function bootstrap() {
 
 function compile(app) {
     app.useStaticAssets(resolve(__dirname, './assets'));
-    app.useStaticAssets(resolve(__dirname, './public'), { prefix: '/js' });
     app.setBaseViewsDir(resolve(__dirname, '../../.webpack/'));
     const webpack = require('webpack');
     const devMiddleware = require('webpack-dev-middleware');
     const hotMiddleware = require('webpack-hot-middleware');
     const config = require('../main/webpack.config');
-    config.entry.shift();
     const compiler = webpack(config);
     compiler.plugin('emit', (compilation, callback) => {
         const assets = compilation.assets;
@@ -48,7 +47,7 @@ function compile(app) {
         callback();
     });
 
-    app.use(devMiddleware(compiler, { noInfo: true, inline: true, hot: false, publicPath: config.output.publicPath }));
+    app.use(devMiddleware(compiler, { hot: true, publicPath: config.output.publicPath }));
     app.use(hotMiddleware(compiler));
 }
 

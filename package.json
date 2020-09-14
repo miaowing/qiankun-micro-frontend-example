@@ -76,16 +76,21 @@
     "ts-pnp": "1.1.6",
     "typescript": "~3.7.2",
     "url-loader": "2.3.0",
-    "webpack": "4.42.0",
+    "webpack": "4.43.0",
     "webpack-dev-server": "3.11.0",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
-    "start": "concurrently \"npm run start:server\" \"npm run start:dashboard\"",
+    "start": "concurrently -n server,dashboard,management \"npm run start:server\" \"npm run start:dashboard\" \"npm run start:management\"",
+    "build": "concurrently -n server,main,dashboard,management \"npm run build:server\" \"npm run build:main\" \"npm run build:dashboard\" \"npm run build:management\"",
     "start:server": "cross-env NODE_ENV=development nodemon",
     "start:dashboard": "node scripts/start --app=dashboard --port=30001",
-    "build": "node scripts/build.js",
+    "start:management": "node scripts/start --app=management --port=30002",
+    "build:server": "tsc -p tsconfig.build.json",
+    "build:main": "node scripts/build.js --app=main",
+    "build:dashboard": "node scripts/build.js --app=dashboard",
+    "build:management": "node scripts/build.js --app=management",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
@@ -115,15 +120,19 @@
           "libraryDirectory": "es",
           "style": "css"
         }
+      ],
+      [
+        "react-refresh/babel"
       ]
     ]
   },
   "devDependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.2",
     "@types/lodash": "^4.14.161",
     "@types/react-redux": "^7.1.9",
     "@types/systemjs": "^6.1.0",
-    "antd": "3",
+    "antd": "^3.26.18",
     "babel-plugin-import": "^1.13.0",
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.2",
@@ -134,6 +143,7 @@
     "nodemon": "^2.0.4",
     "progress-bar-webpack-plugin": "^2.1.0",
     "react-redux": "^7.2.1",
+    "react-refresh": "^0.8.3",
     "react-router-dom": "^5.2.0",
     "react-transition-group": "^4.4.1",
     "redux": "^4.0.5",

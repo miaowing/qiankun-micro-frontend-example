@@ -55,22 +55,16 @@ module.exports = function (proxy, allowedHost) {
         // for files like `favicon.ico`, `manifest.json`, and libraries that are
         // for some reason broken when imported through webpack. If you just want to
         // use an image, put it in `src` and `import` it from JavaScript instead.
-        contentBase: paths.appPublic,
-        contentBasePublicPath: paths.publicUrlOrPath,
+        // contentBaallowedHostsse: paths.appPublic,
+        // contentBasePublicPath: process.env.PUBLIC_URL,
         // By default files from `contentBase` will not trigger a page reload.
-        watchContentBase: true,
+        // watchContentBase: true,
         // Enable hot reloading server. It will provide WDS_SOCKET_PATH endpoint
         // for the WebpackDevServer client so it can learn when the files were
         // updated. The WebpackDevServer client is included as an entry point
         // in the webpack development configuration. Note that only changes
         // to CSS are currently hot reloaded. JS changes will refresh the browser.
         hot: true,
-        // Use 'ws' instead of 'sockjs-node' on server since we're using native
-        // websockets in `webpackHotDevClient`.
-        transportMode: 'ws',
-        // Prevent a WS client from getting injected as we're already including
-        // `webpackHotDevClient`.
-        injectClient: false,
         // Enable custom sockjs pathname for websocket connection to hot reloading server.
         // Enable custom sockjs hostname, pathname and port for websocket connection
         // to hot reloading server.
@@ -94,7 +88,7 @@ module.exports = function (proxy, allowedHost) {
         },
         https: getHttpsConfig(),
         host,
-        overlay: false,
+        // overlay: false,
         historyApiFallback: {
             // Paths with dots should still use the history fallback.
             // See https://github.com/facebook/create-react-app/issues/387.
@@ -131,5 +125,10 @@ module.exports = function (proxy, allowedHost) {
         headers: {
             "Access-Control-Allow-Origin": "*",
         },
+        allowedHosts: [
+            'localhost:3000',
+            'localhost:30001',
+            'localhost:30002',
+        ]
     };
 };

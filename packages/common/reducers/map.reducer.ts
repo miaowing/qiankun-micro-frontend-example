@@ -2,13 +2,14 @@ import { Action } from "../interfaces/action.interface";
 import { ADD, DELETE, PUT } from "../constants/verb.constants";
 import { set } from 'lodash';
 
-export class MapReducer {
+export class MapReducer<M extends any> {
     constructor(
         private readonly type: string,
+        private readonly model: M,
     ) {
     }
 
-    public reduce<T extends any>(state = {}, action: Action<T>) {
+    public reduce<T extends any>(state = this.model || {}, action: Action<T>) {
         if (action.type !== this.type) {
             return state;
         }

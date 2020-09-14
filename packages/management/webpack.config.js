@@ -2,16 +2,15 @@ const path = require('path');
 const Config = require('../../config/webpack.config');
 
 const env = process.env.NODE_ENV || 'development';
-const name = 'main';
+const name = 'management';
 const packageName = `@micro-fe/${name}`;
 
-process.env.APP_INDEX = path.resolve(__dirname, 'main.app.tsx');
-process.env.APP_HTML = path.resolve(__dirname, 'main.html');
+process.env.APP_HTML = path.resolve(__dirname, 'index.html');
 process.env.APP_BUILD = path.resolve(__dirname, `../../build/public/${name}`);
-process.env.APP_HTML_NAME = env === 'development' ? 'main.html' : path.resolve(__dirname, '../../build/views/index.hbs');
-process.env.APP_INDEX = path.resolve(__dirname, 'main.app.tsx');
+process.env.APP_INDEX = path.resolve(__dirname, 'management.app.tsx')
 
 if (env === 'production') {
+    process.env.APP_HTML_NAME = path.resolve(__dirname, `../../build/public/${name}/index.html`);
     process.env.PUBLIC_URL = `/${name}`;
 }
 
