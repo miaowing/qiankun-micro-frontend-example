@@ -1,20 +1,13 @@
 'use strict';
 
-// Do this as the first thing so that any code reading it knows the right env.
-
 process.env.BABEL_ENV = 'development';
 process.env.NODE_ENV = 'development';
 
-// Makes the script crash on unhandled rejections instead of silently
-// ignoring them. In the future, promise rejections that are not handled will
-// terminate the Node.js process with a non-zero exit code.
 process.on('unhandledRejection', err => {
     throw err;
 });
 
-// Ensure environment variables are read.
 require('../config/env');
-
 
 const path = require('path');
 const fs = require('fs');
@@ -146,7 +139,9 @@ checkBrowsers(paths.appPath, isInteractive)
             if (process.env.NODE_PATH) {
                 console.log(
                     chalk.yellow(
-                        'Setting NODE_PATH to resolve modules absolutely has been deprecated in favor of setting baseUrl in jsconfig.json (or tsconfig.json if you are using TypeScript) and will be removed in a future major release of create-react-app.'
+                        'Setting NODE_PATH to resolve modules absolutely has been deprecated in favor of setting ' +
+                        'baseUrl in jsconfig.json (or tsconfig.json if you are using TypeScript) and will be removed' +
+                        ' in a future major release of create-react-app.'
                     )
                 );
                 console.log();

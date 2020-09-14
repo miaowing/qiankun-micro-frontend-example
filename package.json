@@ -2,6 +2,18 @@
   "name": "micro-fe-starter",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "node scripts/start-all.js",
+    "build": "node scripts/build-all.js",
+    "start:server": "cross-env NODE_ENV=development nodemon",
+    "start:main": "node scripts/start --app=main --port=30000",
+    "start:dashboard": "node scripts/start --app=dashboard --port=30001",
+    "start:management": "node scripts/start --app=management --port=30002",
+    "build:server": "tsc -p tsconfig.build.json",
+    "build:main": "node scripts/build.js --app=main",
+    "build:dashboard": "node scripts/build.js --app=dashboard",
+    "build:management": "node scripts/build.js --app=management"
+  },
   "dependencies": {
     "@babel/core": "7.9.0",
     "@godaddy/terminus": "^4.4.1",
@@ -81,19 +93,6 @@
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1"
   },
-  "scripts": {
-    "start": "concurrently -n server,main,dashboard,management \"npm run start:server\" \"npm run start:main\" \"npm run start:dashboard\" \"npm run start:management\"",
-    "build": "concurrently -n server,main,dashboard,management \"npm run build:server\" \"npm run build:main\" \"npm run build:dashboard\" \"npm run build:management\"",
-    "start:server": "cross-env NODE_ENV=development nodemon",
-    "start:main": "node scripts/start --app=main --port=30000",
-    "start:dashboard": "node scripts/start --app=dashboard --port=30001",
-    "start:management": "node scripts/start --app=management --port=30002",
-    "build:server": "tsc -p tsconfig.build.json",
-    "build:main": "node scripts/build.js --app=main",
-    "build:dashboard": "node scripts/build.js --app=dashboard",
-    "build:management": "node scripts/build.js --app=management",
-    "test": "node scripts/test.js"
-  },
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -123,7 +122,10 @@
         }
       ],
       [
-        "react-refresh/babel"
+        "react-refresh/babel",
+        {
+          "skipEnvCheck": true
+        }
       ]
     ]
   },

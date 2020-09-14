@@ -399,11 +399,7 @@ module.exports = function (webpackEnv) {
             new ModuleNotFoundPlugin(paths.appPath),
             new webpack.DefinePlugin(env.stringified),
             isEnvDevelopment && new webpack.HotModuleReplacementPlugin(),
-            isEnvDevelopment && new ReactRefreshWebpackPlugin({
-                overlay: {
-                    sockHost: process.env.WDS_SOCKET_HOST
-                },
-            }),
+            isEnvDevelopment && new ReactRefreshWebpackPlugin(),
             isEnvDevelopment && new CaseSensitivePathsPlugin(),
             isEnvDevelopment &&
             new WatchMissingNodeModulesPlugin(paths.appNodeModules),
