@@ -2,6 +2,7 @@ import * as React from "react";
 import { Layout } from "antd";
 import styles from './main.container.m.less';
 import { NavigatorContainer } from "./navigator.container";
+import { EntryContainer } from "./entry.container";
 
 interface MainContainerProps {
     loading?: boolean;
@@ -28,7 +29,7 @@ export class MainContainer extends React.Component<MainContainerProps, any> {
                 <Layout.Header>
                 </Layout.Header>
                 <Layout.Content>
-                    <div id="content"/>
+                    <EntryContainer/>
                 </Layout.Content>
             </Layout>
         </Layout>

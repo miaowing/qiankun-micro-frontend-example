@@ -1,6 +1,6 @@
 import { combineReducers } from "../../common/combine-reducers";
-import { DashboardReducer } from "./dashboard.reducer";
+import { UserReducer } from "./user.reducer";
 
 export const reducers = combineReducers({
-    dashboard: new DashboardReducer(),
+    user: new UserReducer(),
 });

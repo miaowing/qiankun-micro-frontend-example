@@ -1,5 +1,5 @@
-import { DashboardModel } from "../redux/dashboard.model";
+import { UserModel } from "../redux/user.model";
 
 export interface State {
-    dashboard: DashboardModel;
+    user: UserModel;
 }
